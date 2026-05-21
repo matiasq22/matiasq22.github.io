@@ -317,6 +317,41 @@
     @keyframes grow { to { width: 56px; } }
     @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .2; } }
 
+    /* ── CURRENT BUILD ───────────────────── */
+    .build-card {
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      background: var(--card);
+      padding: 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .build-card::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(232,98,42,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .build-status {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .b-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: blink 1.8s ease infinite; }
+    .build-title { font-size: clamp(32px, 5vw, 60px); font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--text); margin-bottom: 18px; }
+    .build-desc { font-size: 15px; color: var(--dim); line-height: 1.78; max-width: 660px; margin-bottom: 52px; }
+    .modules-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border-hi); border: 1px solid var(--border-hi);
+    }
+    .module { background: var(--bg); padding: 28px 30px; transition: background .25s; }
+    .module:hover { background: var(--elevated); }
+    .m-num { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: .1em; margin-bottom: 12px; opacity: .8; }
+    .m-title { font-size: 14px; font-weight: 700; letter-spacing: -.01em; color: var(--text); margin-bottom: 8px; }
+    .m-desc { font-family: var(--mono); font-size: 11.5px; color: var(--dim); line-height: 1.62; }
+
     /* ── RESPONSIVE ──────────────────── */
     @media (max-width: 960px) {
       nav, section, footer { padding-left: 24px; padding-right: 24px; }
@@ -326,6 +361,7 @@
       .proj-grid { grid-template-columns: 1fr; }
       .pcard.featured { grid-column: 1; }
       .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .modules-grid { grid-template-columns: 1fr; }
       .n-links { display: none; }
       .h-sep { display: none; }
       .hero-bottom { flex-direction: column; gap: 16px; }
@@ -345,6 +381,7 @@
     <ul class="n-links">
       <li><a href="#expertise">Expertise</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#building">Building</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -391,7 +428,7 @@
   <!-- EXPERTISE -->
   <section id="expertise">
     <div class="s-label">01 — Expertise</div>
-    <h2 class="s-title r">What I<br>Build</h2>
+    <h2 class="s-title r">The<br>Stack</h2>
     <div class="exp-grid r d1">
       <div class="exp-col">
         <div class="e-num">01</div>
@@ -510,8 +547,56 @@
   </section>
 
   <!-- ABOUT -->
+  <!-- CURRENTLY BUILDING -->
+  <section id="building">
+    <div class="s-label">03 — Currently Building</div>
+    <h2 class="s-title r">In the<br>Workshop</h2>
+    <div class="build-card r d1">
+      <div class="build-status">
+        <div class="b-dot"></div>
+        In Progress
+      </div>
+      <div class="build-title">Travel Agency<br>Management SaaS</div>
+      <p class="build-desc">
+        A full-stack CRM platform built for travel agencies to manage their entire business — from the first customer interaction to post-trip feedback. One system that replaces the spreadsheets, messaging threads, and disconnected tools agencies rely on today.
+      </p>
+      <div class="modules-grid">
+        <div class="module">
+          <div class="m-num">01</div>
+          <div class="m-title">Customer Relations</div>
+          <div class="m-desc">Full client lifecycle management — travel history, preferences, contact log, and status tracking per customer.</div>
+        </div>
+        <div class="module">
+          <div class="m-num">02</div>
+          <div class="m-title">Trip Builder</div>
+          <div class="m-desc">Build complete travel itineraries including flights, accommodation, activities, and tours in a single plan.</div>
+        </div>
+        <div class="module">
+          <div class="m-num">03</div>
+          <div class="m-title">Destination Search</div>
+          <div class="m-desc">Searchable destination catalog with filtering by budget, season, category, and availability.</div>
+        </div>
+        <div class="module">
+          <div class="m-num">04</div>
+          <div class="m-title">Pricing Plans</div>
+          <div class="m-desc">Flexible pricing structures and package rates configurable per trip, destination, or client segment.</div>
+        </div>
+        <div class="module">
+          <div class="m-num">05</div>
+          <div class="m-title">Booking Management</div>
+          <div class="m-desc">Centralized reservation tracking across all trip components — flights, hotels, tours, and transfers.</div>
+        </div>
+        <div class="module">
+          <div class="m-num">06</div>
+          <div class="m-title">Experience Tracking</div>
+          <div class="m-desc">Post-travel feedback collection and satisfaction scoring to improve service quality over time.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="about" id="about">
-    <div class="s-label">03 — About</div>
+    <div class="s-label">04 — About</div>
     <div class="about-inner r">
       <div>
         <p class="a-text">
@@ -555,7 +640,7 @@
   <!-- CONTACT -->
   <section class="contact" id="contact">
     <div class="contact-bg">HIRE ME</div>
-    <div class="c-label r">04 — Contact</div>
+    <div class="c-label r">05 — Contact</div>
     <h2 class="c-head r">Let's build<br>something.</h2>
     <a href="mailto:matimartinezq22@gmail.com" class="c-email r">
       matimartinezq22@gmail.com ↗
