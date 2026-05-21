@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matias Quevedo — Software Engineer</title>
+  <meta name="description" content="Software engineer specializing in backend systems, cloud infrastructure, and distributed architectures." />
+  <link rel="canonical" href="https://matiasquevedo.xyz" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #070707;
+      --card:     #0D0D0D;
+      --elevated: #121212;
+      --border:   #191919;
+      --border-hi:#272727;
+      --text:     #DDD9D3;
+      --dim:      #6A6560;
+      --faint:    #252220;
+      --accent:   #E8622A;
+      --a-soft:   rgba(232, 98, 42, 0.12);
+      --green:    #3DBA6A;
+      --display:  'Syne', sans-serif;
+      --mono:     'IBM Plex Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--display);
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Dot grid overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.038) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Custom cursor */
+    #cur {
+      position: fixed; width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      opacity: 0; transition: width .15s, height .15s;
+    }
+    #ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1px solid rgba(232, 98, 42, .4); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      opacity: 0; transition: width .2s, height .2s, opacity .3s;
+    }
+
+    .wrap { position: relative; z-index: 2; }
+
+    /* ── NAV ────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 22px 56px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(var(--bg) 30%, transparent);
+    }
+    .n-id {
+      font-family: var(--mono); font-size: 12px;
+      color: var(--dim); letter-spacing: .12em;
+    }
+    .n-id b { color: var(--accent); font-weight: 400; }
+    .n-links { display: flex; gap: 36px; list-style: none; }
+    .n-links a {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--dim); text-decoration: none;
+      letter-spacing: .1em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .n-links a:hover { color: var(--text); }
+
+    /* ── HERO ────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 56px 88px;
+      position: relative;
+      background: radial-gradient(ellipse 65% 55% at 25% 65%, rgba(232,98,42,.05) 0%, transparent 70%);
+    }
+
+    .hero-status {
+      position: absolute; top: 26px; right: 56px;
+      font-family: var(--mono); font-size: 11px; color: var(--green);
+      display: flex; align-items: center; gap: 8px; letter-spacing: .08em;
+      opacity: 0; animation: fi 1s ease 1.6s forwards;
+    }
+    .s-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2.5s ease infinite; }
+
+    .hero-chips {
+      position: absolute; right: 56px; top: 50%; transform: translateY(-60%);
+      display: flex; flex-direction: column; gap: 12px; align-items: flex-end;
+      opacity: 0; animation: fi 1s ease 1.4s forwards;
+    }
+    .h-chip {
+      font-family: var(--mono); font-size: 11px; color: var(--dim);
+      padding: 5px 14px; border: 1px solid var(--border-hi);
+      background: rgba(13,13,13,.8); backdrop-filter: blur(8px);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .h-chip::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); opacity: .8; flex-shrink: 0; }
+
+    .hero-name {
+      font-size: clamp(70px, 12vw, 170px);
+      font-weight: 800; line-height: .9; letter-spacing: -.04em;
+      color: var(--text); margin-bottom: 40px;
+    }
+    .h-line { display: block; overflow: hidden; }
+    .h-line span {
+      display: block;
+      opacity: 0; transform: translateY(105%);
+      animation: su 1s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .h-line:nth-child(1) span { animation-delay: .25s; }
+    .h-line:nth-child(2) span { animation-delay: .42s; color: var(--accent); }
+
+    .hero-bar {
+      width: 0; height: 1px; background: var(--accent); margin-bottom: 36px;
+      animation: grow .9s cubic-bezier(.22,1,.36,1) .72s forwards;
+    }
+
+    .hero-bottom {
+      display: flex; align-items: flex-start; gap: 0;
+      opacity: 0; animation: fu .9s cubic-bezier(.22,1,.36,1) .88s forwards;
+    }
+    .h-role { min-width: 240px; }
+    .h-role-title { font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--text); margin-bottom: 5px; }
+    .h-role-sub { font-family: var(--mono); font-size: 12px; color: var(--dim); }
+    .h-sep { width: 1px; height: 52px; background: var(--border-hi); margin: 2px 52px 0; flex-shrink: 0; }
+    .h-tagline { font-size: 15px; color: var(--dim); line-height: 1.8; max-width: 440px; }
+
+    .hero-scroll {
+      position: absolute; bottom: 52px; left: 56px;
+      font-family: var(--mono); font-size: 10px; color: var(--faint);
+      letter-spacing: .16em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px;
+      opacity: 0; animation: fi 1s ease 1.9s forwards;
+    }
+    .s-line { width: 36px; height: 1px; background: var(--faint); }
+
+    .hero-coords {
+      position: absolute; bottom: 48px; right: 56px;
+      font-family: var(--mono); font-size: 10px; color: var(--faint); letter-spacing: .08em;
+      opacity: 0; animation: fi 1s ease 2.1s forwards;
+    }
+
+    /* ── SECTION BASE ────────────────── */
+    section { padding: 128px 56px; }
+
+    .s-label {
+      font-family: var(--mono); font-size: 11px;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 56px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .s-label::after { content: ''; width: 40px; height: 1px; background: var(--accent); opacity: .4; }
+
+    .s-title {
+      font-size: clamp(44px, 7vw, 88px);
+      font-weight: 800; line-height: .94; letter-spacing: -.04em;
+      margin-bottom: 72px;
+    }
+
+    /* ── EXPERTISE ────────────────────── */
+    .exp-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border); background: var(--border); gap: 1px;
+    }
+    .exp-col {
+      background: var(--card); padding: 48px 40px;
+      position: relative; transition: background .3s;
+    }
+    .exp-col::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: transparent; transition: background .3s;
+    }
+    .exp-col:hover { background: var(--elevated); }
+    .exp-col:hover::before { background: var(--accent); }
+
+    .e-num { font-family: var(--mono); font-size: 11px; color: var(--faint); letter-spacing: .1em; margin-bottom: 20px; }
+    .e-title { font-size: 19px; font-weight: 700; letter-spacing: -.01em; color: var(--text); margin-bottom: 32px; }
+    .e-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .e-list li {
+      font-family: var(--mono); font-size: 12.5px; color: var(--dim);
+      display: flex; align-items: center; gap: 10px; transition: color .2s;
+    }
+    .exp-col:hover .e-list li { color: var(--text); }
+    .e-list li::before { content: ''; width: 3px; height: 3px; border-radius: 50%; background: var(--accent); opacity: .7; flex-shrink: 0; }
+
+    /* ── PROJECTS ────────────────────── */
+    .proj-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border); background: var(--border); gap: 1px;
+    }
+    .pcard {
+      background: var(--card); padding: 48px;
+      position: relative; overflow: hidden; transition: background .3s;
+    }
+    .pcard.featured { grid-column: 1 / -1; }
+    .pcard:hover { background: var(--elevated); }
+    .pcard::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width .55s cubic-bezier(.22,1,.36,1);
+    }
+    .pcard:hover::after { width: 100%; }
+
+    .p-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+    .p-src { font-family: var(--mono); font-size: 10px; color: var(--faint); letter-spacing: .1em; display: flex; align-items: center; gap: 6px; }
+    .p-src::before { content: '●'; color: var(--accent); font-size: 7px; }
+    .p-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { font-family: var(--mono); font-size: 10px; padding: 3px 10px; border: 1px solid var(--border-hi); color: var(--dim); letter-spacing: .04em; }
+
+    .p-title { font-size: 26px; font-weight: 700; letter-spacing: -.02em; color: var(--text); margin-bottom: 14px; }
+    .pcard.featured .p-title { font-size: clamp(26px, 4vw, 44px); }
+    .p-desc { font-size: 14px; color: var(--dim); line-height: 1.78; max-width: 700px; margin-bottom: 28px; }
+    .p-hi { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .p-hi li {
+      font-family: var(--mono); font-size: 12px; color: var(--dim);
+      display: flex; align-items: flex-start; gap: 10px;
+      line-height: 1.5; transition: color .2s;
+    }
+    .pcard:hover .p-hi li { color: var(--text); }
+    .p-hi li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+    /* ── ABOUT ───────────────────────── */
+    .about { border-top: 1px solid var(--border); }
+    .about-inner { display: grid; grid-template-columns: 5fr 3fr; gap: 80px; align-items: start; }
+    .a-text { font-size: 17px; color: var(--dim); line-height: 1.85; }
+    .a-text b { color: var(--text); font-weight: 600; }
+
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 32px; }
+    .pill {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+      padding: 7px 16px; border: 1px solid var(--border-hi); color: var(--dim);
+      background: var(--card); transition: all .2s; cursor: default;
+    }
+    .pill:hover { border-color: var(--accent); color: var(--text); background: var(--a-soft); }
+
+    .a-side { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .a-block { background: var(--card); padding: 28px 32px; }
+    .a-n { font-size: 52px; font-weight: 800; letter-spacing: -.04em; line-height: 1; color: var(--text); margin-bottom: 4px; }
+    .a-n span { color: var(--accent); }
+    .a-n.sm { font-size: 36px; padding-top: 8px; }
+    .a-l { font-family: var(--mono); font-size: 11px; color: var(--dim); letter-spacing: .08em; }
+
+    /* ── CONTACT ─────────────────────── */
+    .contact {
+      text-align: center; padding: 140px 56px;
+      border-top: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .contact-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(80px, 18vw, 260px); font-weight: 800; letter-spacing: -.04em;
+      color: var(--faint); opacity: .5; white-space: nowrap; user-select: none;
+    }
+    .c-label { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; }
+    .c-head { font-size: clamp(44px, 8vw, 112px); font-weight: 800; letter-spacing: -.04em; line-height: .95; color: var(--text); margin-bottom: 48px; }
+    .c-email {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 15px; color: var(--text);
+      text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 3px;
+      transition: color .2s;
+    }
+    .c-email:hover { color: var(--accent); }
+    .c-links { display: flex; justify-content: center; gap: 40px; margin-top: 56px; }
+    .c-link {
+      font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: color .2s;
+    }
+    .c-link::before { content: '↗'; }
+    .c-link:hover { color: var(--accent); }
+
+    /* ── FOOTER ──────────────────────── */
+    footer {
+      padding: 20px 56px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .f-t { font-family: var(--mono); font-size: 10px; color: var(--faint); letter-spacing: .08em; }
+
+    /* ── SCROLL REVEAL ───────────────── */
+    .r {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .85s cubic-bezier(.22,1,.36,1), transform .85s cubic-bezier(.22,1,.36,1);
+    }
+    .r.on { opacity: 1; transform: none; }
+    .r.d1 { transition-delay: .1s; }
+    .r.d2 { transition-delay: .2s; }
+    .r.d3 { transition-delay: .3s; }
+
+    /* ── KEYFRAMES ───────────────────── */
+    @keyframes su  { to { opacity: 1; transform: none; } }
+    @keyframes fu  { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    @keyframes fi  { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes grow { to { width: 56px; } }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .2; } }
+
+    /* ── RESPONSIVE ──────────────────── */
+    @media (max-width: 960px) {
+      nav, section, footer { padding-left: 24px; padding-right: 24px; }
+      .hero { padding-left: 24px; padding-right: 24px; padding-bottom: 72px; }
+      .hero-chips, .hero-status, .hero-coords, .hero-scroll { display: none; }
+      .exp-grid { grid-template-columns: 1fr; }
+      .proj-grid { grid-template-columns: 1fr; }
+      .pcard.featured { grid-column: 1; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .n-links { display: none; }
+      .h-sep { display: none; }
+      .hero-bottom { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="ring"></div>
+
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav>
+    <div class="n-id">matiasquevedo<b>.xyz</b></div>
+    <ul class="n-links">
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+
+    <div class="hero-status">
+      <div class="s-dot"></div>
+      Open to remote work
+    </div>
+
+    <div class="hero-chips">
+      <div class="h-chip">PHP 8.5 · Laravel 13</div>
+      <div class="h-chip">Kubernetes · Terraform</div>
+      <div class="h-chip">Python · PostgreSQL</div>
+      <div class="h-chip">WireGuard · Docker</div>
+    </div>
+
+    <h1 class="hero-name">
+      <span class="h-line"><span>MATIAS</span></span>
+      <span class="h-line"><span>QUEVEDO</span></span>
+    </h1>
+
+    <div class="hero-bar"></div>
+
+    <div class="hero-bottom">
+      <div class="h-role">
+        <div class="h-role-title">Software Engineer</div>
+        <div class="h-role-sub">Asunción, Paraguay</div>
+      </div>
+      <div class="h-sep"></div>
+      <p class="h-tagline">
+        Backend systems, cloud infrastructure, and distributed architectures built to ship and scale.
+      </p>
+    </div>
+
+    <div class="hero-scroll"><div class="s-line"></div>Scroll</div>
+    <div class="hero-coords">25.2867° S · 57.6470° W</div>
+
+  </section>
+
+  <!-- EXPERTISE -->
+  <section id="expertise">
+    <div class="s-label">01 — Expertise</div>
+    <h2 class="s-title r">What I<br>Build</h2>
+    <div class="exp-grid r d1">
+      <div class="exp-col">
+        <div class="e-num">01</div>
+        <div class="e-title">Backend Engineering</div>
+        <ul class="e-list">
+          <li>PHP 8.4 / 8.5</li>
+          <li>Laravel 12 / 13</li>
+          <li>Python · REST APIs</li>
+          <li>Livewire 4 · Alpine.js</li>
+          <li>JWT · Fortify · Spatie RBAC</li>
+          <li>nwidart module system</li>
+          <li>Laravel Sail · Docker</li>
+        </ul>
+      </div>
+      <div class="exp-col">
+        <div class="e-num">02</div>
+        <div class="e-title">Cloud &amp; Infrastructure</div>
+        <ul class="e-list">
+          <li>Terraform (IaC)</li>
+          <li>DigitalOcean</li>
+          <li>Kubernetes (Talos)</li>
+          <li>cert-manager · ingress-nginx</li>
+          <li>WireGuard VPN (wg-easy)</li>
+          <li>CNPG (CloudNativePG)</li>
+          <li>Docker · Docker Compose</li>
+        </ul>
+      </div>
+      <div class="exp-col">
+        <div class="e-num">03</div>
+        <div class="e-title">Data &amp; Architecture</div>
+        <ul class="e-list">
+          <li>PostgreSQL (primary + replica)</li>
+          <li>MySQL · SQLite</li>
+          <li>Redis · Beanstalk queues</li>
+          <li>Pest v4 · PHPUnit 12 · pytest</li>
+          <li>Clean / Hexagonal Architecture</li>
+          <li>Spec-Driven Development</li>
+          <li>Domain modeling · SOLID</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="padding-top: 0;">
+    <div class="s-label" style="padding-top: 128px;">02 — Projects</div>
+    <h2 class="s-title r">Shipped</h2>
+    <div class="proj-grid">
+
+      <div class="pcard featured r">
+        <div class="p-head">
+          <div class="p-src">do-api / infra</div>
+          <div class="p-tags">
+            <span class="tag">Terraform</span>
+            <span class="tag">Kubernetes</span>
+            <span class="tag">Python</span>
+            <span class="tag">DigitalOcean</span>
+            <span class="tag">cert-manager</span>
+          </div>
+        </div>
+        <div class="p-title">Kubernetes Cloud Infrastructure Platform</div>
+        <p class="p-desc">
+          Fully IaC-managed Talos K8s cluster on DigitalOcean. Modular Terraform architecture across dev, staging, and production — reusable VPC, VPN, and firewall modules. End-to-end TLS via cert-manager issuing per-tenant leaf certificates consumed by CNPG clusters. Python API drives automated tenant provisioning.
+        </p>
+        <ul class="p-hi">
+          <li>Provisioned WireGuard VPN bastion (wg-easy) on dedicated DigitalOcean droplet via Terraform cloud-init + REST enrollment</li>
+          <li>Built cert-manager + CNPG TLS pipeline — centralized CA issuing leaf certs per tenant namespace</li>
+          <li>Migrated VPC lifecycle from Terraform-owned resource to pre-existing data source with zero downtime</li>
+          <li>Python API with full pytest coverage for K8s manifest generation and multi-environment config validation</li>
+        </ul>
+      </div>
+
+      <div class="pcard r d1">
+        <div class="p-head">
+          <div class="p-src">antell-wsgv2</div>
+          <div class="p-tags">
+            <span class="tag">Laravel 13</span>
+            <span class="tag">PHP 8.5</span>
+            <span class="tag">Pest v4</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+        </div>
+        <div class="p-title">Financial Reconciliation Engine</div>
+        <p class="p-desc">
+          Artisan command + API for detecting and resolving inconsistencies between internal BankCredit records and the Tarex external payment processor — cases where the remote service succeeded but the app registered an error and flagged the credit for reversal.
+        </p>
+        <ul class="p-hi">
+          <li>BankCredit / EpinTransaction reconciliation with full Tarex service integration</li>
+          <li>Recovered test suite from 85 failing tests to green — root cause: APP_URL misconfiguration in phpunit.xml</li>
+          <li>Pest v4 coverage, full Docker / Laravel Sail runtime</li>
+        </ul>
+      </div>
+
+      <div class="pcard r d2">
+        <div class="p-head">
+          <div class="p-src">antell-smsapi · antell-admin</div>
+          <div class="p-tags">
+            <span class="tag">Laravel</span>
+            <span class="tag">Livewire 4</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Redis</span>
+          </div>
+        </div>
+        <div class="p-title">Field Sales Operations Suite</div>
+        <p class="p-desc">
+          Mobile sync API and admin panel for managing field sales rep scheduling across a distributed network. Implemented per-client biweekly visit frequency end-to-end: database, service layer, admin UI, and mobile sync endpoint.
+        </p>
+        <ul class="p-hi">
+          <li>Biweekly client scheduling — week-parity filtering integrated into the salesman sync endpoint</li>
+          <li>Full admin CRUD with Livewire 4 + Alpine.js, service layer, factories, PHPUnit 12 coverage</li>
+          <li>Multi-service architecture: Laravel 5.8 API + Laravel 12 admin + PostgreSQL read replica</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="s-label">03 — About</div>
+    <div class="about-inner r">
+      <div>
+        <p class="a-text">
+          I'm a software engineer who works across the full backend stack — from
+          <b>domain modeling and service layers</b> to <b>cloud infrastructure
+          and deployment pipelines</b>.<br><br>
+          I care about architecture that scales and code the next engineer can
+          actually read. I use <b>Spec-Driven Development</b> to ship complex
+          features methodically and <b>Clean Architecture</b> to keep systems
+          from becoming a mess over time.<br><br>
+          I work remotely and have shipped production systems in
+          <b>fintech</b>, <b>field operations</b>, and
+          <b>cloud infrastructure</b>.
+        </p>
+        <div class="pills">
+          <div class="pill">Spec-Driven Dev</div>
+          <div class="pill">Clean Architecture</div>
+          <div class="pill">TDD</div>
+          <div class="pill">Domain Modeling</div>
+          <div class="pill">Hexagonal Arch</div>
+          <div class="pill">SOLID</div>
+        </div>
+      </div>
+      <div class="a-side">
+        <div class="a-block">
+          <div class="a-n">4<span>+</span></div>
+          <div class="a-l">Active production systems</div>
+        </div>
+        <div class="a-block">
+          <div class="a-n">3<span>+</span></div>
+          <div class="a-l">Cloud infra architectures shipped</div>
+        </div>
+        <div class="a-block">
+          <div class="a-n sm">Remote</div>
+          <div class="a-l">Available worldwide</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-bg">HIRE ME</div>
+    <div class="c-label r">04 — Contact</div>
+    <h2 class="c-head r">Let's build<br>something.</h2>
+    <a href="mailto:matimartinezq22@gmail.com" class="c-email r">
+      matimartinezq22@gmail.com ↗
+    </a>
+    <div class="c-links r d1">
+      <a href="https://github.com/matiasq22" target="_blank" rel="noopener" class="c-link">GitHub</a>
+      <a href="https://www.linkedin.com/in/mquevedo2203/" target="_blank" rel="noopener" class="c-link">LinkedIn</a>
+      <a href="https://twitter.com/matimartiinez22" target="_blank" rel="noopener" class="c-link">Twitter</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="f-t">© 2026 Matias Quevedo</div>
+    <div class="f-t">matiasquevedo.xyz · Asunción, PY · Remote · Available</div>
+  </footer>
+
+</div>
+
+<script>
+  // ── Custom cursor ──────────────────────────────────
+  const cur  = document.getElementById('cur');
+  const ring = document.getElementById('ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cur.style.left = mx + 'px';
+    cur.style.top  = my + 'px';
+    cur.style.opacity = '1';
+    ring.style.opacity = '0.85';
+  });
+
+  (function trackRing() {
+    rx += (mx - rx) * 0.1;
+    ry += (my - ry) * 0.1;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(trackRing);
+  })();
+
+  document.querySelectorAll('a, .pcard, .exp-col, .pill').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cur.style.width  = '14px';
+      cur.style.height = '14px';
+      ring.style.width  = '52px';
+      ring.style.height = '52px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cur.style.width  = '8px';
+      cur.style.height = '8px';
+      ring.style.width  = '36px';
+      ring.style.height = '36px';
+    });
+  });
+
+  // ── Scroll reveal ──────────────────────────────────
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('on');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -48px 0px' });
+
+  document.querySelectorAll('.r').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
