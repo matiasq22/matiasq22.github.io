@@ -351,6 +351,10 @@
     .m-num { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: .1em; margin-bottom: 12px; opacity: .8; }
     .m-title { font-size: 14px; font-weight: 700; letter-spacing: -.01em; color: var(--text); margin-bottom: 8px; }
     .m-desc { font-family: var(--mono); font-size: 11.5px; color: var(--dim); line-height: 1.62; }
+    .build-head-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+    .build-head-row .build-status { margin-bottom: 0; }
+    .build-repo-link { color: var(--accent); border-color: var(--accent); text-decoration: none; transition: background .2s, color .2s; cursor: pointer; }
+    .build-repo-link:hover { background: var(--a-soft); }
 
     /* ── RESPONSIVE ──────────────────── */
     @media (max-width: 960px) {
@@ -552,44 +556,53 @@
     <div class="s-label">03 — Currently Building</div>
     <h2 class="s-title r">In the<br>Workshop</h2>
     <div class="build-card r d1">
-      <div class="build-status">
-        <div class="b-dot"></div>
-        In Progress
+      <div class="build-head-row">
+        <div class="build-status">
+          <div class="b-dot"></div>
+          In Progress
+        </div>
+        <div class="p-tags">
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Supabase</span>
+          <span class="tag">Tailwind CSS</span>
+          <a href="https://github.com/matiasq22/grouptours" target="_blank" rel="noopener" class="tag build-repo-link">github ↗</a>
+        </div>
       </div>
-      <div class="build-title">Travel Agency<br>Management SaaS</div>
+      <div class="build-title">GroupTours</div>
       <p class="build-desc">
-        A full-stack CRM platform built for travel agencies to manage their entire business — from the first customer interaction to post-trip feedback. One system that replaces the spreadsheets, messaging threads, and disconnected tools agencies rely on today.
+        A full-stack SaaS for travel agencies — public-facing package catalog paired with a complete back-office CRM. Agencies manage their entire operation in one place: clients, travel packages, bookings, installment payment plans, receipts, and financial statements. Built on Supabase with role-based access and a full activity audit log.
       </p>
       <div class="modules-grid">
         <div class="module">
           <div class="m-num">01</div>
-          <div class="m-title">Customer Relations</div>
-          <div class="m-desc">Full client lifecycle management — travel history, preferences, contact log, and status tracking per customer.</div>
+          <div class="m-title">Client Management</div>
+          <div class="m-desc">Full client registry with contact info, notes, and booking history. Every customer relationship in one place.</div>
         </div>
         <div class="module">
           <div class="m-num">02</div>
-          <div class="m-title">Trip Builder</div>
-          <div class="m-desc">Build complete travel itineraries including flights, accommodation, activities, and tours in a single plan.</div>
+          <div class="m-title">Package Catalog</div>
+          <div class="m-desc">Travel package management with destination, duration, pricing, capacity, and availability — public-facing and admin-controlled.</div>
         </div>
         <div class="module">
           <div class="m-num">03</div>
-          <div class="m-title">Destination Search</div>
-          <div class="m-desc">Searchable destination catalog with filtering by budget, season, category, and availability.</div>
+          <div class="m-title">Booking Engine</div>
+          <div class="m-desc">Client-to-package bookings with travel date, headcount, total price, and status lifecycle tracking.</div>
         </div>
         <div class="module">
           <div class="m-num">04</div>
-          <div class="m-title">Pricing Plans</div>
-          <div class="m-desc">Flexible pricing structures and package rates configurable per trip, destination, or client segment.</div>
+          <div class="m-title">Installment Payments</div>
+          <div class="m-desc">Split booking payments into installments with due dates, paid amounts, and overdue tracking per reservation.</div>
         </div>
         <div class="module">
           <div class="m-num">05</div>
-          <div class="m-title">Booking Management</div>
-          <div class="m-desc">Centralized reservation tracking across all trip components — flights, hotels, tours, and transfers.</div>
+          <div class="m-title">Receipts & Statements</div>
+          <div class="m-desc">Receipt generation per booking and account statement reporting across multiple bank accounts and currencies.</div>
         </div>
         <div class="module">
           <div class="m-num">06</div>
-          <div class="m-title">Experience Tracking</div>
-          <div class="m-desc">Post-travel feedback collection and satisfaction scoring to improve service quality over time.</div>
+          <div class="m-title">Audit & Access Control</div>
+          <div class="m-desc">Role-based user management with a full activity log tracking every action across entities and users.</div>
         </div>
       </div>
     </div>
